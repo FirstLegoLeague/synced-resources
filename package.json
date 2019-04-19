@@ -10,15 +10,20 @@
     "node": ">=8.2.1"
   },
   "scripts": {
-    "test": "cross-env MHUB_URI=ws://mhub nyc --all --reporter=text --check-coverage --lines 90 mocha --recursive",
+    "test": "cross-env nyc --all --reporter=text --check-coverage --lines 90 mocha --recursive",
     "lint": "eslint --ext .js ./",
     "lint:fix": "eslint --ext .js --fix ./"
   },
   "dependencies": {
     "@first-lego-league/ms-client": "^1.0.0",
+    "@first-lego-league/ms-correlation": "^0.0.5",
     "@first-lego-league/ms-logger": "^1.4.1",
     "@first-lego-league/ms-messenger": "^1.0.0",
-    "bluebird": "^3.5.3"
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "event-emitter-es6": "^1.1.5",
+    "express": "^4.16.4",
+    "mongodb": "^3.2.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",

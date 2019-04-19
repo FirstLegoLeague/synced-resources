@@ -23,7 +23,7 @@ Before you start creating the server or client side you need to create a class t
 ```javascript
 class Model {
   // Built from data sent over HTTP/WS. Opposite of toJSon
-  initialize (attrs) {
+  constructor (attrs) {
     Object.assign(this, attrs)
   }
 
@@ -73,21 +73,53 @@ class MyModel extends Model {
 
 expotrs.MyModel = MyModel
 ```
-
-
 ### Server side
 
-Then you simply need to `use` the server side module in your express app:
+After creating your model you simply need to `use` the server side module in your express app:
 ```javascript
 const { MongoEntityServer, MongoCollectionServer } = require('@first-lego-league/synces-resources')
 const { MyModel } = require('../shared/models/my_model')
 
 ...
-app.use(new MongoCollectionServer(MyModel)) // For a collection
-app.use(new MongoEntityServer(MyModel)) // For a single entry
+// For a collection
+app.use('/mymodel', new MongoCollectionServer(MyModel))
+
+// For a single entry
+app.use('/mymodel', new MongoEntityServer(MyModel))
 ```
-Notice a few things:
+You can add a before functions for every route in the server:
+```javascript
+app.use('/mymodel', new MongoEntityServer(MyModel, { before: { set: ..., get: ..., } }))
+
+// Using an authorization middleware like this:
+const { authroizationMiddlware } = require('@first-lego-leagie/ms-auth')
+
+const authroizeAdmin = authroizationMiddlware(['admin'])
+app.use('/mymodel', new MongoEntityServer(MyModel, { before: { set: authroizeAdmin } }))
+```
+You can tell the server to override or even not include some routes at all, like this:
+(See below for the list of available routes in each server)
+```javascript
+app.use('/mymodel', new MongoEntityServer(MyModel, { exclude: ['search'] }))
+app.use('/mymodel', new MongoEntityServer(MyModel, { exclude: ['search', 'get'] }))
+app.use('/mymodel', new MongoEntityServer(MyModel, { override: { search: ... } }))
+```
+
+Few things you should notice:
  * The name of the collection in the DB will be designed by the name of the model.
  * The topic of the message over MHub will also be by the name of the model: `ModelName:reload`.
+ * The optional routes in the entry server are:
+   * `get` - responds to a GET request to the base URL with `entry.toJson()`.
+   * `set` - responds to a POST request to the base URL by setting the entry to `new Model(req.body).sanitize()`.
+   * `getField` - responds to a GET request to `/:field` with `entry.toJson()[field]`, where field is the field from the route.
+ * The optional routes in the collection server are:
+   * `getAll` - responds to a GET request to the base URL with all entries in the collection mapped with `entry.toJson()`.
+   * `deleteAll` - responds to a DELETE request to the base URL by deleting all the entries.
+   * `search` - responds to a GET request to `/search` with all the entries matching the `req.query` fields.
+   * `count` - responds to a GET request to `/count` with the number of entries in the collection.
+   * `create` - responds to a POST request to base URL by saving an entry using `new Model(req.body).sanitize()`.
+   * `get` - responds to a GET request to `/:id` with the matching entry's `entry.toJson()`.
+   * `update` - responds to a PUT request to `/:id` by updating the matching entry using `new Model(req.body).sanitize()`.
+   * `delete` - responds to a DELETE request to `/:id` by deleting the matching entry.
 
 ### Client side

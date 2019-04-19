@@ -8,189 +8,69 @@ const proxyquire = require('proxyquire')
 chai.use(chaiString)
 const expect = chai.expect
 
-const { LoggerMock, logger } = require('./mocks/ms-logger.mock.js')
-const { ClientMock, client } = require('./mocks/ms-client.mock.js')
-const { MessengerMock, messenger, triggerListener } = require('./mocks/ms-messenger.mock.js')
+// mocks
+const Model = {}
+const InvalidEntry = {}
 
-const Resource = proxyquire('../', {
-  '@first-lego-league/ms-logger': LoggerMock,
-  '@first-lego-league/ms-client': ClientMock,
-  '@first-lego-league/ms-messenger': MessengerMock
-}).Resource
+const MongoCollectionServer = {}
+const MongoEntityServer = {}
 
-describe('Resource', () => {
-  describe('in devvelopment NODE_ENV', () => {
-  	before(() => {
-      process.env.NODE_ENV = 'development'
+const DevelopmentCollectionClient = {}
+const DevelopmentEntityClient = {}
+const RegularCollectionClient = {}
+const RegularEntityClient = {}
+
+const mocks = {
+  './lib/resources/model': { Model },
+  './lib/resources/errors/invalid_entry': { InvalidEntry },
+
+  './lib/server/mongo/collection_server': { MongoCollectionServer },
+  './lib/server/mongo/entity_server': { MongoEntityServer },
+
+  './lib/client/development/entity_client': { EntityClient: DevelopmentEntityClient },
+  './lib/client/development/collection_client': { CollectionClient: DevelopmentCollectionClient },
+  './lib/client/entity_client': { EntityClient: RegularEntityClient },
+  './lib/client/collection_client': { CollectionClient: RegularCollectionClient }
+}
+
+describe('index', () => {
+  describe('in development', () => {
+    process.env.NODE_ENV = 'development'
+    const index = proxyquire('../', mocks)
+
+    it('exposes all correct shared modules', () => {
+      expect(index.Model).to.eq(Model)
+      expect(index.InvalidEntry).to.eq(InvalidEntry)
     })
 
-  	it('returns developmentValue', done => {
-  		const developmentValue = 'developmentValue'
-  		new Resource({ developmentValue }).get()
-  			.then(value => {
-          expect(value).to.equal(developmentValue)
-          done()
-        })
-  	})
+    it('exposes all correct server modules', () => {
+      expect(index.MongoEntityServer).to.eq(MongoEntityServer)
+      expect(index.MongoCollectionServer).to.eq(MongoCollectionServer)
+    })
+
+    it('exposes all correct client modules', () => {
+      expect(index.EntityClient).to.eq(DevelopmentEntityClient)
+      expect(index.CollectionClient).to.eq(DevelopmentCollectionClient)
+    })
   })
 
-  describe('in production NODE_ENV', () => {
-  	before(() => {
-      process.env.NODE_ENV = 'prod'
+  describe('in production', () => {
+    process.env.NODE_ENV = 'production'
+    const index = proxyquire('../', mocks)
+
+    it('exposes all correct shared modules', () => {
+      expect(index.Model).to.eq(Model)
+      expect(index.InvalidEntry).to.eq(InvalidEntry)
     })
 
-    describe('init', () => {
-      const url = 'url'
-      const topic = 'topic'
-      const name = 'name'
-
-      it('does not save initPromise upon failure', done => {
-        const resource = new Resource({ url, topic, name })
-        resource.reload = chai.spy(() => { throw new Error('error') })
-        resource.init().then(() => {
-          expect(true).to.be(false)
-        }).catch(() => {
-          expect(resource._initPromise).to.equal(null)
-          done()
-        })
-      })
-
-      it('throws the error upon failure', done => {
-        const error = new Error('error')
-        const resource = new Resource({ url, topic, name })
-        resource.reload = chai.spy(() => { throw error })
-        resource.init().then(() => {
-          expect(true).to.be(false)
-        }).catch(err => {
-          expect(err).to.equal(error)
-          done()
-        })
-      })
-
-      it('calls messenger.listen with the topic', done => {
-        const resource = new Resource({ url, topic, name })
-        resource.init().then(() => {
-          expect(messenger.listen).to.have.been.called()
-          done()
-        })
-      })
-
-      it('calls this.reload', done => {
-        const resource = new Resource({ url, topic, name })
-        resource.reload = chai.spy()
-        resource.init().then(() => {
-          expect(resource.reload).to.have.been.called()
-          done()
-        })
-      })
-
-      it('sets this.value to be that value returned from this.reload', done => {
-        const value = 'value'
-        const resource = new Resource({ url, topic, name })
-        resource.reload = chai.spy(() => value)
-        resource.init().then(() => {
-          expect(resource.value).to.equal(value)
-          done()
-        })
-      })
+    it('exposes all correct server modules', () => {
+      expect(index.MongoEntityServer).to.eq(MongoEntityServer)
+      expect(index.MongoCollectionServer).to.eq(MongoCollectionServer)
     })
 
-    describe('on message', () => {
-      const url = 'url'
-      const topic = 'topic'
-      const name = 'name'
-
-      it('sets the value from this.reload if dataInMessage is falsly', done => {
-        const value = 'value'
-        const value2 = 'other value'
-        const resource = new Resource({ url, topic, name, dataInMessage: false })
-        resource.reload = chai.spy(() => Promise.resolve(value))
-        resource.init()
-          .then(() => triggerListener({ value: value2 }))
-          .then(() => {
-            expect(resource.value).to.equal(value)
-            done()
-          })
-      })
-
-      it('sets the value from data if dataInMessage is true', done => {
-        const value = 'value'
-        const value2 = 'other value'
-        const resource = new Resource({ url, topic, name, dataInMessage: true })
-        resource.reload = chai.spy(() => Promise.resolve(value))
-        resource.init()
-          .then(() => triggerListener({ value: value2 }))
-          .then(() => {
-            expect(resource.value).to.equal(value2)
-            done()
-          })
-      })
-
-      it('calls this.onUpdate', done => {
-        const value = 'value'
-        const value2 = 'other value'
-        const onUpdate = chai.spy(() => { })
-        const resource = new Resource({ url, topic, name, onUpdate })
-        resource.init()
-          .then(() => triggerListener({ value: value2 }))
-          .then(() => {
-            expect(onUpdate).to.have.been.called()
-            done()
-          })
-      })
-    })
-
-    describe('reload', () => {
-      const url = 'url'
-      const topic = 'topic'
-      const name = 'name'
-
-      it('calls logger.info with correct message', done => {
-        const resource = new Resource({ url, topic, name })
-        resource.reload().then(() => {
-          expect(logger.info).to.have.been.called.with(`Reloading ${name}`)
-          done()
-        })
-      })
-
-      it('calls client.get with the given url', done => {
-        const resource = new Resource({ url, topic, name })
-        resource.reload().then(() => {
-          expect(client.get).to.have.been.called.with(url)
-          done()
-        })
-      })
-
-      it('returns the data from the response', done => {
-        const resource = new Resource({ url, topic, name })
-        resource.reload().then(value => {
-          expect(value).to.equal(client.data)
-          done()
-        })
-      })
-    })
-
-    describe('get', () => {
-      const url = 'url'
-      const topic = 'topic'
-      const name = 'name'
-
-      it('calls this.init', done => {
-        const resource = new Resource({ url, topic, name })
-        resource.init = chai.spy(() => Promise.resolve())
-        resource.get().then(() => {
-          expect(resource.init).to.have.been.called()
-          done()
-        })
-      })
-
-      it('returns this.value', done => {
-        const resource = new Resource({ url, topic, name })
-        resource.get().then(value => {
-          expect(value).to.equal(client.data)
-          done()
-        })
-      })
+    it('exposes all correct client modules', () => {
+      expect(index.EntityClient).to.eq(RegularEntityClient)
+      expect(index.CollectionClient).to.eq(RegularCollectionClient)
     })
   })
 })

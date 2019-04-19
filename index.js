@@ -1,14 +1,18 @@
 'use strict'
+/* eslint import/no-dynamic-require: 0 */
 
 const { Model } = require('./lib/resources/model')
+const { InvalidEntry } = require('./lib/resources/errors/invalid_entry')
 
-const { CollectionClient } = require('./lib/client/collection_client')
-const { EntityClient } = require('./lib/client/entity_client')
+const clientsDir = `./lib/client${process.env.NODE_ENV === 'development' ? '/development' : ''}`
+const { CollectionClient } = require(`${clientsDir}/collection_client`)
+const { EntityClient } = require(`${clientsDir}/entity_client`)
 
-const { MongoCollectionServer } = require('./lib/server/mogno/collection_server')
-const { MongoEntityServer } = require('./lib/server/mogno/entity_server')
+const { MongoCollectionServer } = require('./lib/server/mongo/collection_server')
+const { MongoEntityServer } = require('./lib/server/mongo/entity_server')
 
 exports.Model = Model
+exports.InvalidEntry = InvalidEntry
 
 exports.CollectionClient = CollectionClient
 exports.EntityClient = EntityClient
