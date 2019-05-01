@@ -8,8 +8,8 @@ chai.use(spies)
 
 const messenger = {
   listen: (topic, listener) => {
-  	messenger.listener = listener
-  	return Promise.resolve()
+    messenger.listener = listener
+    return Promise.resolve()
   },
   send: () => Promise.resolve()
 }
@@ -26,5 +26,5 @@ exports.MessengerMock = {
 }
 
 exports.triggerListener = data => {
-	return messenger.listener(data)
+  return messenger.listener(data)
 }
