@@ -7,7 +7,13 @@ const spies = require('chai-spies')
 chai.use(spies)
 
 const MongoClient = {
-  connect: () => Promise.resolve(MongoClient.connection)
+  connect: () => {
+    if (MongoClient.errorsEnabled) {
+      return Promise.reject(new Error('Some error'))
+    } else {
+      return Promise.resolve(MongoClient.connection)
+    }
+  }
 }
 
 const clientSandbox = chai.spy.sandbox()
@@ -26,11 +32,11 @@ dbSendbox.on(MongoClient.db, Object.keys(MongoClient.db))
 
 MongoClient.collection = {
   find: () => Promise.resolve(MongoClient.collection.data),
-  findOne: () => Promise.resolve(MongoClient.collection.data[0]),
+  findOne: ({ _id }) => Promise.resolve(MongoClient.collection.data.find(datum => datum._id === _id.toString())),
   count: () => Promise.resolve(MongoClient.collection.data.length),
-  insertOne: () => Promise.resolve(),
+  insertOne: () => Promise.resolve({ insertedId: 123 }),
   updateOne: () => Promise.resolve(),
-  deleteOne: () => Promise.resolve(),
+  deleteOne: ({ _id }) => Promise.resolve({ deletedCount: MongoClient.collection.data.filter(datum => datum._id === _id.toString()).length }),
   deleteMany: () => Promise.resolve()
 }
 

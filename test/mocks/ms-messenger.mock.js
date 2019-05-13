@@ -11,7 +11,7 @@ const messenger = {
     messenger.listener = listener
     return Promise.resolve()
   },
-  send: () => Promise.resolve()
+  send: () => { }
 }
 
 const messengerSandbox = chai.spy.sandbox()
