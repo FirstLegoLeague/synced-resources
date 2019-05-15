@@ -12,7 +12,7 @@ const expect = chai.expect
 const { ModelMock } = require('../../../mocks/model.mock')
 const { EntityClient } = require('../../../../lib/client/development/entity_client')
 
-describe('EntityClient', () => {
+describe('development EntityClient', () => {
   const client = new EntityClient(ModelMock)
 
   it('has data equal to developmentData', () => {

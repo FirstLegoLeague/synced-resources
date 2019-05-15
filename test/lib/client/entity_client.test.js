@@ -32,6 +32,8 @@ describe('EntityClient', () => {
 
   beforeEach(() => {
     entityClient = new EntityClient(ModelMock, RESOURCE_SERVER_URL)
+    entityClient.emit = chai.spy(entityClient.emit)
+    client.data = ModelMock.developmentEntity()
   })
 
   describe('init', () => {
@@ -65,6 +67,15 @@ describe('EntityClient', () => {
         .then(() => {
           triggerListener({ _id })
           expect(entityClient.data._id).to.equal(_id)
+        })
+    })
+
+    it('emits reload event', () => {
+      const _id = 5
+      return entityClient.init()
+        .then(() => {
+          triggerListener({ _id })
+          expect(entityClient.emit).to.have.been.called.with('reload')
         })
     })
   })
