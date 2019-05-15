@@ -22,10 +22,6 @@ const { MongoMock, MongoClient } = require('../../../mocks/mongo.mock')
 MessengerMock['@global'] = true
 LoggerMock['@global'] = true
 MongoMock['@global'] = true
-MongoClient.collection.data = [{
-  _id: 'a21212121212121212121212',
-  field1: '916381'
-}]
 
 const mocks = {
   '@first-lego-league/ms-messenger': MessengerMock,
@@ -35,7 +31,7 @@ const mocks = {
 
 const { MongoEntityServer } = proxyquire('../../../../lib/server/mongo/entity_server', mocks)
 
-describe('mongo collection server', () => {
+describe('mongo entity server', () => {
   describe('with no options', () => {
     const app = express()
     const server = new MongoEntityServer(ModelMock)
@@ -55,7 +51,7 @@ describe('mongo collection server', () => {
               throw error
             }
 
-            expect(response.body).to.have.equal(MongoClient.collection.data[0])
+            expect(response.body).to.eql(MongoClient.collection.data[0])
             done()
           })
       })
@@ -105,7 +101,7 @@ describe('mongo collection server', () => {
           request(app)
             .post('/')
             .send(entryJson)
-            .expect(200, (error, response) => {
+            .expect(204, (error, response) => {
               if (error) {
                 throw error
               }
@@ -119,7 +115,7 @@ describe('mongo collection server', () => {
           request(app)
             .post('/')
             .send(entryJson)
-            .expect(200, (error, response) => {
+            .expect(204, (error, response) => {
               if (error) {
                 throw error
               }
@@ -152,93 +148,95 @@ describe('mongo collection server', () => {
     })
   })
 
-  // describe('with options', () => {
-  //   const app = express()
-  //   const options = {
-  //     exclude: ['search', 'get'],
-  //     before: {
-  //       count: chai.spy((req, res, next) => next())
-  //     },
-  //     override: {
-  //       deleteAll: chai.spy((req, res, next) => res.sendStatus(200))
-  //     }
-  //   }
-  //   const server = new MongoEntityServer(ModelMock, options)
-  //   app.use(server)
+  describe('with options', () => {
+    const app = express()
+    const options = {
+      exclude: ['getField'],
+      before: {
+        get: chai.spy((req, res, next) => next())
+      },
+      override: {
+        set: chai.spy((req, res, next) => res.sendStatus(200))
+      }
+    }
+    const server = new MongoEntityServer(ModelMock, options)
+    app.use(server)
 
-  //   beforeEach(() => {
-  //     server._connectionPromise = undefined
-  //     MongoClient.errorsEnabled = false
-  //   })
+    beforeEach(() => {
+      server._connectionPromise = undefined
+      MongoClient.errorsEnabled = false
+    })
 
-  //   it('excludes all routes in options.exclude', done => {
-  //     request(app)
-  //       .get('/search')
-  //       .expect(404, done)
-  //   })
+    it('excludes all routes in options.exclude', done => {
+      request(app)
+        .get('/field1')
+        .expect(404, done)
+    })
 
-  //   it('calls before function of routes in options.before', done => {
-  //     request(app)
-  //       .get('/count')
-  //       .expect(200, () => {
-  //         expect(options.before.count).to.have.been.called()
-  //         done()
-  //       })
-  //   })
+    it('calls before function of routes in options.before', done => {
+      request(app)
+        .get('/')
+        .expect(200, () => {
+          expect(options.before.get).to.have.been.called()
+          done()
+        })
+    })
 
-  //   it('calls override function of routes in options.override, and does not call the original', done => {
-  //     MongoClient.collection.deleteMany = chai.spy(() => Promise.resolve())
-  //     request(app)
-  //       .delete('/')
-  //       .expect(200, () => {
-  //         expect(options.override.deleteAll).to.have.been.called()
-  //         expect(MongoClient.collection.deleteMany).not.to.have.been.called.with({})
-  //         done()
-  //       })
-  //   })
-  // })
+    it('calls override function of routes in options.override, and does not call the original', done => {
+      MongoClient.load()
+      request(app)
+        .post('/')
+        .expect(200, () => {
+          expect(options.override.set).to.have.been.called()
+          expect(MongoClient.collection.updateOne).not.to.have.been.called()
+          done()
+        })
+    })
+  })
 
-  // describe('with extendable', () => {
-  //   const app = express()
-  //   const options = {
-  //     extendable: true
-  //   }
-  //   const server = new MongoEntityServer(ModelMock, options)
-  //   app.use(server)
+  describe('with extendable', () => {
+    const app = express()
+    const options = {
+      extendable: true
+    }
+    const server = new MongoEntityServer(ModelMock, options)
+    app.use(server)
 
-  //   beforeEach(() => {
-  //     server._connectionPromise = undefined
-  //     MongoClient.errorsEnabled = false
-  //   })
+    beforeEach(() => {
+      server._connectionPromise = undefined
+      MongoClient.errorsEnabled = false
+    })
 
-  //   it('has no routes if close has not been called', done => {
-  //     request(app)
-  //       .get('/')
-  //       .expect(404, done)
-  //   })
+    it('has no routes if close has not been called', done => {
+      request(app)
+        .get('/')
+        .expect(404, done)
+    })
 
-  //   it('has routes if close has been called', done => {
-  //     server.close()
-  //     request(app)
-  //       .get('/')
-  //       .expect(200, done)
-  //   })
-  // })
+    it('has routes if close has been called', done => {
+      server.close()
+      request(app)
+        .get('/')
+        .expect(200, done)
+    })
+  })
 
-  // it('saves the connection promise', done => {
-  //   const app = express()
-  //   const server = new MongoEntityServer(ModelMock)
-  //   app.use(server)
+  it('saves the connection promise', done => {
+    const app = express()
+    const server = new MongoEntityServer(ModelMock)
+    app.use(server)
 
-  //   request(app)
-  //     .get('/')
-  //     .expect(200, () => {
-  //       request(app)
-  //         .get('/')
-  //         .expect(200, () => {
-  //           expect(MongoClient.connect).to.have.been.called.exactly(1)
-  //           done()
-  //         })
-  //     })
-  // })
+    MongoClient.load()
+
+    request(app)
+      .get('/')
+      .expect(200, () => {
+        request(app)
+          .get('/')
+          .expect(200, () => {
+            expect(MongoClient.connect).to.have.been.called.exactly(1)
+            done()
+          })
+      })
+  })
 })

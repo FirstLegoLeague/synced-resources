@@ -147,7 +147,7 @@ describe('mongo collection server', () => {
               throw error
             }
 
-            expect(response.body.count).to.equal(MongoClient.collection.data.length)
+            expect(response.body.count).to.deep.equal(MongoClient.collection.data.length)
             done()
           })
       })
@@ -379,7 +379,7 @@ describe('mongo collection server', () => {
     })
 
     it('calls override function of routes in options.override, and does not call the original', done => {
-      MongoClient.collection.deleteMany = chai.spy(() => Promise.resolve())
+      MongoClient.load()
       request(app)
         .delete('/')
         .expect(200, () => {
