@@ -17,7 +17,10 @@ const client = {
 const clientSandbox = chai.spy.sandbox()
 clientSandbox.on(client, Object.keys(client))
 
-client.data = 'data'
+client.data = {
+  _id: 'a21212121212121212121212',
+  field1: '916381'
+}
 
 exports.client = client
 

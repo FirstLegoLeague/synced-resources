@@ -11,8 +11,11 @@ const messenger = {
     messenger.listener = listener
     return Promise.resolve()
   },
-  send: () => { }
+  send: () => { },
+  ignoreNextMessage: () => { }
 }
+
+messenger.on = (topic, callback) => messenger.listen(topic, callback)
 
 const messengerSandbox = chai.spy.sandbox()
 messengerSandbox.on(messenger, Object.keys(messenger))
