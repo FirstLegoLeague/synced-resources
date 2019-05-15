@@ -7,7 +7,6 @@ const chaiSpies = require('chai-spies')
 const chaiString = require('chai-string')
 const request = require('supertest')
 const proxyquire = require('proxyquire')
-const Promise = require('bluebird')
 
 chai.use(chaiString)
 chai.use(chaiSpies)
