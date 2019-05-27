@@ -10,7 +10,7 @@
     "node": ">=8.2.1"
   },
   "scripts": {
-    "test": "cross-env nyc --all --reporter=text --check-coverage --lines 90 mocha --recursive",
+    "test": "cross-env nyc -n=lib/**/*.js --reporter=text --check-coverage --lines 90 mocha --recursive",
     "lint": "eslint --ext .js ./",
     "lint:fix": "eslint --ext .js --fix ./"
   },
