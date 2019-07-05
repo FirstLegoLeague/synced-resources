@@ -26,11 +26,6 @@ describe('default Model', () => {
     })
   })
 
-  it('is considered save if and only if it has an _id field', () => {
-    expect(modelWithId.isSaved()).to.equal(true)
-    expect(modelWithoutId.isSaved()).to.equal(false)
-  })
-
   it('is saved in sanitized form, without _id', () => {
     const sanitizedModelWithId = modelWithId.sanitize()
     Object.entries(sanitizedModelWithId).forEach(([key, value]) => {

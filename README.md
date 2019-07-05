@@ -27,11 +27,6 @@ class Model {
     Object.assign(this, attrs)
   }
 
-  // Saved into DB?
-  isSaved () {
-    return Boolean(this._id)
-  }
-
   // Prepare for DB insertion. Needs to be all attributes except _id.
   sanitize () {
     const sanitized = { }
