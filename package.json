@@ -1,5 +1,5 @@
 {
-  "name": "ms-resource",
+  "name": "@first-lego-league/synced-resources",
   "version": "1.0.0",
   "description": "A Resource that uses ms-client and ms-messenger to keep itself updated with a service",
   "main": "index.js",
