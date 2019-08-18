@@ -1,4 +1,3 @@
-'use strict'
 /* eslint import/no-dynamic-require: 0 */
 
 const { Model } = require('./lib/resources/model')

@@ -1,5 +1,3 @@
-'use strict'
-
 const Promise = require('bluebird')
 const chai = require('chai')
 const spies = require('chai-spies')

@@ -30,6 +30,7 @@
     "chai-string": "^1.5.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.12.0",
+    "eslint-config-first-lego-league": "^1.0.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.1",

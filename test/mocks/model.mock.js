@@ -1,5 +1,3 @@
-'use strict'
-
 const { Model } = require('../../lib/resources/model')
 const { InvalidEntry } = require('../../lib/resources/errors/invalid_entry')
 
