@@ -103,12 +103,12 @@
     cookie "^0.3.1"
     randomatic "^3.0.0"
 
-"@first-lego-league/ms-messenger@^1.0.0":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@first-lego-league/ms-messenger/-/ms-messenger-1.0.2.tgz#1f01a400603710315f84b8c71fba7a60e82e406b"
-  integrity sha512-A3eZCgSvBoFIph7LeE4P/KA4oqol2cnh8Q6aqvelZ69HOQ62f1/nOK/ov8t+FNWcf7H3ZnZj1oWAuyNlm+P5sw==
+"@first-lego-league/ms-messenger@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@first-lego-league/ms-messenger/-/ms-messenger-1.0.5.tgz#a6699a6cbec77deb54c9861f800f8bf37eb2f5a6"
+  integrity sha512-RWfvzUyd8qvSKL4nHWjQ2S8sQySq/97M+9ED1XKpMkoHxAfjspxz2Q6axo3O2fpwnslBBmYEV5nGPoXik56bvw==
   dependencies:
-    "@first-lego-league/ms-correlation" "^0.0.5"
+    bluebird "^3.5.4"
     mhub "^0.9.1"
 
 "@types/mkdirp@^0.3.29":
@@ -309,6 +309,11 @@ bluebird@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
   integrity sha512-/qKPUQlaW1OyR51WeCPBvRnAlnZFUJkCSG5HzGnuIqhgyJtF+T94lFnn33eiazjRm2LAHVy2guNnaq48X9SJuw==
+
+bluebird@^3.5.4:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
+  integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
 
 body-parser@1.18.3, body-parser@^1.18.3:
   version "1.18.3"

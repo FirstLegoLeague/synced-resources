@@ -17,7 +17,7 @@
   "dependencies": {
     "@first-lego-league/ms-client": "^1.1.0",
     "@first-lego-league/ms-correlation": "^0.0.5",
-    "@first-lego-league/ms-messenger": "^1.0.0",
+    "@first-lego-league/ms-messenger": "^1.0.5",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "event-emitter-es6": "^1.1.5",
