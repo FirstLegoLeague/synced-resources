@@ -17,7 +17,6 @@
   "dependencies": {
     "@first-lego-league/ms-client": "^1.0.0",
     "@first-lego-league/ms-correlation": "^0.0.5",
-    "@first-lego-league/ms-logger": "^2.0.0",
     "@first-lego-league/ms-messenger": "^1.0.0",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
@@ -41,5 +40,8 @@
     "nyc": "^13.1.0",
     "proxyquire": "^2.1.0",
     "supertest": "^4.0.2"
+  },
+  "peerDependencies": {
+    "@first-lego-league/ms-logger": "^2.0.0"
   }
 }
