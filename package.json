@@ -1,9 +1,9 @@
 {
   "name": "@first-lego-league/synced-resources",
-  "version": "1.0.9",
   "description": "A Resource that uses ms-client and ms-messenger to keep itself updated with a service",
+  "version": "1.0.9",
   "main": "index.js",
-  "repository": "git@github.com:FirstLegoLeague/ms-resource.git",
+  "repository": "https://github.com/FirstLegoLeague/ms-resource.git",
   "author": "Idan Stark <idanstark42@gmail.com>",
   "license": "MIT",
   "engines": {
