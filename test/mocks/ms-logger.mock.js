@@ -21,3 +21,5 @@ exports.LoggerMock = {
     return logger
   }
 }
+exports.LoggerMock['@global'] = true
+exports.LoggerMock['@noCallThru'] = true

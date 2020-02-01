@@ -17,9 +17,6 @@ const { LoggerMock } = require('../../../mocks/ms-logger.mock')
 const { MongoMock, MongoClient } = require('../../../mocks/mongo.mock')
 
 // mocks
-MessengerMock['@global'] = true
-LoggerMock['@global'] = true
-MongoMock['@global'] = true
 MongoClient.collection.data = [{
   _id: 'a21212121212121212121212',
   field1: '916381'

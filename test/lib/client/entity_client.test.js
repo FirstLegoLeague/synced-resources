@@ -1,5 +1,6 @@
 /* global describe it beforeEach */
 
+const Promise = require('bluebird')
 const chai = require('chai')
 const chaiSpies = require('chai-spies')
 const chaiString = require('chai-string')
@@ -12,10 +13,6 @@ const expect = chai.expect
 const { MessengerMock, messenger, triggerListener } = require('../../mocks/ms-messenger.mock')
 const { ClientMock, client } = require('../../mocks/ms-client.mock')
 const { ModelMock } = require('../../mocks/model.mock')
-
-// mocks
-MessengerMock['@global'] = true
-ClientMock['@global'] = true
 
 const mocks = {
   '@first-lego-league/ms-messenger': MessengerMock,
@@ -55,6 +52,13 @@ describe('EntityClient', () => {
         .then(() => {
           expect(entityClient.data.constructor.name).to.equal('ModelMock')
           expect(entityClient.data.toJson()).to.eql(client.data)
+        })
+    })
+
+    it('initialize the listeners if autoInit is set to true', () => {
+      return Promise.resolve(new EntityClient(ModelMock, RESOURCE_SERVER_URL, { autoInit: true }))
+        .then(() => {
+          expect(messenger.on).to.have.been.called()
         })
     })
   })
