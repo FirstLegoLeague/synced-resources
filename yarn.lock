@@ -90,6 +90,11 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@first-lego-league/eslint-config@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@first-lego-league/eslint-config/-/eslint-config-0.1.0.tgz#64e7d1e32b2c72ba09acd9077fd78987d13e7644"
+  integrity sha512-zdgeFavGQlImLC3Iw6heH47OjccjNRmVoMZth8oGM69vw1TdcAyESzr/VMAZ0q1HnKHPAbdkyQwY0n0E19lSxA==
+
 "@first-lego-league/ms-client@^1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@first-lego-league/ms-client/-/ms-client-1.2.4.tgz#59be8a5ab28536b6f2aa8254327dccf2f95eea6d"

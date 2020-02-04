@@ -11,6 +11,8 @@
   },
   "scripts": {
     "test": "cross-env nyc -n=lib/**/*.js --reporter=text --check-coverage --lines 90 mocha --recursive",
+    "test:coverage": "nyc --reporter=text yarn test",
+    "test:ci": "nyc --reporter=lcov yarn test && codecov",
     "lint": "eslint --ext .js ./",
     "lint:fix": "eslint --ext .js --fix ./"
   },
@@ -26,6 +28,7 @@
     "router": "^1.3.3"
   },
   "devDependencies": {
+    "@first-lego-league/eslint-config": "^0.1.0",
     "@first-lego-league/ms-logger": "^2.0.2",
     "chai": "^4.2.0",
     "chai-spies": "^1.0.0",

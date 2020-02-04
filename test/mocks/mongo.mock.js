@@ -58,4 +58,3 @@ exports.MongoClient = MongoClient
 exports.MongoMock = { MongoClient }
 exports.MongoMock['@global'] = true
 exports.MongoMock['@noCallThru'] = true
-  

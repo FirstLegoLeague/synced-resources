@@ -160,7 +160,7 @@ describe('mongo collection server', () => {
         const entry = new ModelMock({ field1: 'field1', field2: '2' })
         const entryJson = entry.toJson()
 
-        it('saves the entry sanitized version into the DB', done => {
+        it('saves the entry into the DB', done => {
           request(app)
             .post('/')
             .send(entryJson)
@@ -169,7 +169,7 @@ describe('mongo collection server', () => {
                 throw error
               }
 
-              expect(MongoClient.collection.insertOne).to.have.been.called.with(entry.sanitize())
+              expect(MongoClient.collection.insertOne).to.have.been.called.with(entry.toJson())
               done()
             })
         })

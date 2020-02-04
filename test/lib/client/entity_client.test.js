@@ -111,4 +111,10 @@ describe('EntityClient', () => {
         })
     })
   })
+
+  it('calls after create listener', () => {
+    entityClient._options.afterCreate = chai.spy(() => { })
+    entityClient._newEntry({ field: 'value' })
+    expect(entityClient._options.afterCreate).to.have.been.called()
+  })
 })
