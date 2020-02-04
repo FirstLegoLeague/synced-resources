@@ -1,5 +1,14 @@
+[![npm](https://img.shields.io/npm/v/@first-lego-league/synced-resources.svg)](https://www.npmjs.com/package/@first-lego-league/synced-resources)
+[![codecov](https://codecov.io/gh/FirstLegoLeague/synced-resources/branch/master/graph/badge.svg)](https://codecov.io/gh/FirstLegoLeague/synced-resources)
+[![Build status](https://ci.appveyor.com/api/projects/status/65scfycp2uyg83ri/branch/master?svg=true)](https://ci.appveyor.com/project/2roy999/synced-resources/branch/master)
+[![GitHub](https://img.shields.io/github/license/FirstLegoLeague/synced-resources.svg)](https://github.com/FirstLegoLeague/synced-resources/blob/master/LICENSE)
+
+[![David Dependency Status](https://david-dm.org/FirstLegoLeague/synced-resources.svg)](https://david-dm.org/FirstLegoLeague/synced-resources)
+[![David Dev Dependency Status](https://david-dm.org/FirstLegoLeague/synced-resources/dev-status.svg)](https://david-dm.org/FirstLegoLeague/synced-resources#info=devDependencies)
+[![David Peer Dependencies Status](https://david-dm.org/FirstLegoLeague/synced-resources/peer-status.svg)](https://david-dm.org/FirstLegoLeague/synced-resources?type=peer)
+
 # Synced Resources
-A full end-to-end resource shared by the protocols defined for the *FIRST* LEGO League TMS, using the ms-client and ms-messenger packages.
+A full, end-to-end, data synchronization between server and client, using the help of the _FIRST_ LEGO League TMS [ms-client](https://github/FirstLegoLeague/ms-client) and [ms-messneger](https://github/FirstLegoLeague/ms-messenger) packages.
 
 ## Logic
 A **Resource** is any data that can be shared across HTTP and WS.
@@ -7,17 +16,12 @@ It can either be a single **Entry** of data, or a **Collection** of entries.
 
 The end-to-end construction is built out of `client-side` module and `server-side` module.
 Each of them need to be used in their side.
-The `serve-side` module keeps the data in a hard copy, and makes sure all clients are in sync.
+The `server-side` module keeps the data in a hard copy, and makes sure all clients are in sync.
 The `client-side` module keeps a copy of the data in memory, and makes the request for changes in the backend.
 
-The server and client sides share a `model` class, which is the class of the object that is shared. This class will contain all of the data required to sync the two sides.
-
-## Technologies
-This package is using an express router for backend, and a generic class for front end. 
-Currently only MongoDB is available as a database for the resources.
+The server and client sides share a `model` class, which is an ES6 class representing the resource. This class will contain all of the data required to sync the two sides, and must inherit from the `Model` class.
 
 ## Usage
-
 Before you start creating the server or client side you need to create a class that extends the `Model` class. Here is the original `Model` class with all the default implementations of the methods. Override those of them you wish to act differently:
 
 ```javascript
@@ -63,13 +67,12 @@ Use it as follows:
 const { Model } = require('@first-lego-league/synced-resources')
 
 class MyModel extends Model {
-	Override methods or add your own...
+	// Override methods or add your own...
 }
 
 expotrs.MyModel = MyModel
 ```
 ### Server side
-
 After creating your model you simply need to `use` the server side module in your express app:
 ```javascript
 const { MongoEntityServer, MongoCollectionServer } = require('@first-lego-league/synces-resources')
@@ -118,3 +121,9 @@ Few things you should notice:
    * `delete` - responds to a DELETE request to `/:id` by deleting the matching entry.
 
 ### Client side
+
+## Contribution
+To contribute to this repository, simply create a PR and set one of the Code Owners to be a reviewer.
+Please notice the linting and UT, because they block merge.
+Keep the package lightweight and easy to use.
+Thank you for contributing!

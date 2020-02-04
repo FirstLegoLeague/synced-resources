@@ -17,10 +17,6 @@ const { LoggerMock } = require('../../../mocks/ms-logger.mock')
 const { MongoMock, MongoClient } = require('../../../mocks/mongo.mock')
 
 // mocks
-MessengerMock['@global'] = true
-LoggerMock['@global'] = true
-MongoMock['@global'] = true
-
 const mocks = {
   '@first-lego-league/ms-messenger': MessengerMock,
   '@first-lego-league/ms-logger': LoggerMock,

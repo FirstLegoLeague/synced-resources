@@ -1,5 +1,6 @@
 /* global describe it beforeEach */
 
+const Promise = require('bluebird')
 const chai = require('chai')
 const chaiSpies = require('chai-spies')
 const chaiString = require('chai-string')
@@ -12,10 +13,6 @@ const expect = chai.expect
 const { MessengerMock, messenger, triggerListener } = require('../../mocks/ms-messenger.mock')
 const { ClientMock, client } = require('../../mocks/ms-client.mock')
 const { ModelMock } = require('../../mocks/model.mock')
-
-// mocks
-MessengerMock['@global'] = true
-ClientMock['@global'] = true
 
 const mocks = {
   '@first-lego-league/ms-messenger': MessengerMock,
@@ -57,6 +54,13 @@ describe('CollectionClient', () => {
             expect(datum.constructor.name).to.equal('ModelMock')
             expect(datum.toJson()).to.eql(client.data[index])
           })
+        })
+    })
+
+    it('initialize the listeners if autoInit is set to true', () => {
+      return Promise.resolve(new CollectionClient(ModelMock, RESOURCE_SERVER_URL, { autoInit: true }))
+        .then(() => {
+          expect(messenger.on).to.have.been.called()
         })
     })
   })
@@ -151,7 +155,7 @@ describe('CollectionClient', () => {
   describe('create', () => {
     it('calls ignoreNextMessage', () => {
       return collectionClient.init()
-        .then(() => collectionClient.clear())
+        .then(() => collectionClient.create({ _id: 5 }))
         .then(() => {
           expect(messenger.ignoreNextMessage).to.have.been.called.with('ModelMock:reload')
         })
@@ -172,7 +176,7 @@ describe('CollectionClient', () => {
         .then(() => {
           lengthBefore = collectionClient.data.length
           client.data = entry
-          collectionClient.create(entry)
+          return collectionClient.create(entry)
         }).then(() => {
           expect(collectionClient.data.some(datum => datum._id === entry._id)).to.equal(true)
           expect(collectionClient.data.length).to.equal(lengthBefore + 1)
@@ -264,5 +268,11 @@ describe('CollectionClient', () => {
           expect(collectionClient.data.length).to.equal(lengthBefore - 1)
         })
     })
+  })
+
+  it('calls after create listener', () => {
+    collectionClient._options.afterCreate = chai.spy(() => { })
+    collectionClient._newEntry({ field: 'value' })
+    expect(collectionClient._options.afterCreate).to.have.been.called()
   })
 })

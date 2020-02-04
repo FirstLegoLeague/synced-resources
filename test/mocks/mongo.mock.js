@@ -34,7 +34,7 @@ MongoClient.load = () => {
   const previousCollectionData = MongoClient.collection ? MongoClient.collection.data : undefined
 
   MongoClient.collection = {
-    find: () => Promise.resolve(MongoClient.collection.data),
+    find: () => ({ toArray: () => MongoClient.collection.data }),
     findOne: ({ _id }) => Promise.resolve(_id ? MongoClient.collection.data.find(datum => datum._id === _id.toString()) : MongoClient.collection.data[0]),
     count: () => Promise.resolve(MongoClient.collection.data.length),
     insertOne: () => Promise.resolve({ insertedId: 123 }),
@@ -56,3 +56,5 @@ MongoClient.load()
 exports.MongoClient = MongoClient
 
 exports.MongoMock = { MongoClient }
+exports.MongoMock['@global'] = true
+exports.MongoMock['@noCallThru'] = true

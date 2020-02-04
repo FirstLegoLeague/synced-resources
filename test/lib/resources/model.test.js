@@ -25,20 +25,6 @@ describe('default Model', () => {
     })
   })
 
-  it('is saved in sanitized form, without _id', () => {
-    const sanitizedModelWithId = modelWithId.sanitize()
-    Object.entries(sanitizedModelWithId).forEach(([key, value]) => {
-      expect(modelWithId[key]).to.equal(value)
-    })
-    expect(sanitizedModelWithId._id).to.equal(undefined)
-
-    const sanitizedModelWithoutId = modelWithoutId.sanitize()
-    Object.entries(sanitizedModelWithoutId).forEach(([key, value]) => {
-      expect(modelWithoutId[key]).to.equal(value)
-    })
-    expect(sanitizedModelWithoutId._id).to.equal(undefined)
-  })
-
   it('is sent over HTTP/WS by just using json over all fields', () => {
     const modelWithIdJson = modelWithId.toJson()
     Object.entries(modelWithIdJson).forEach(([key, value]) => {
@@ -51,12 +37,8 @@ describe('default Model', () => {
     })
   })
 
-  it('equals to another when their _ids and constructor are equal', () => {
-    const anotherModelWithSameId = new Model({ _id: modelWithId._id })
-    expect(modelWithId.equals(anotherModelWithSameId)).to.equal(true)
-
-    const anotherModelWithAnotherId = new Model({ _id: modelWithId._id + 1 })
-    expect(modelWithId.equals(anotherModelWithAnotherId)).to.equal(false)
+  it('returns _id field as its id()', () => {
+    expect(modelWithId.id()).to.equal(modelWithId._id)
   })
 
   it('does not throw an InvalidEntry error', () => {

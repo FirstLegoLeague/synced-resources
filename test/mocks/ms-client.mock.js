@@ -22,4 +22,8 @@ client.data = {
 
 exports.client = client
 
-exports.ClientMock = { client }
+const createClient = () => client
+
+exports.ClientMock = { createClient }
+exports.ClientMock['@global'] = true
+exports.ClientMock['@noCallThru'] = true
