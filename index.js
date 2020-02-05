@@ -2,6 +2,7 @@
 
 const { Model } = require('./lib/resources/model')
 const { ConfigurableModel } = require('./lib/resources/configurable_model')
+const { FieldsModel } = require('./lib/resources/fields_model')
 const { InvalidEntry } = require('./lib/resources/errors/invalid_entry')
 
 const { MongoCollectionServer } = require('./lib/server/mongo/collection_server')
@@ -12,4 +13,4 @@ const { allowModelConfiguration } = require('./lib/server/configurable_model_ser
 exports.Model = Model
 exports.InvalidEntry = InvalidEntry
 
-Object.assign(exports, { Model, ConfigurableModel, InvalidEntry, MongoCollectionServer, MongoEntityServer, allowModelConfiguration })
+Object.assign(exports, { Model, ConfigurableModel, FieldsModel, InvalidEntry, MongoCollectionServer, MongoEntityServer, allowModelConfiguration })
