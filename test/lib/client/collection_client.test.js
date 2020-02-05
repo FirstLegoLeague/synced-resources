@@ -1,5 +1,3 @@
-/* global describe it beforeEach */
-
 const Promise = require('bluebird')
 const chai = require('chai')
 const chaiSpies = require('chai-spies')

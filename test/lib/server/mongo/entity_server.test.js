@@ -1,5 +1,3 @@
-/* global describe it beforeEach */
-
 const express = require('express')
 const chai = require('chai')
 const chaiSpies = require('chai-spies')

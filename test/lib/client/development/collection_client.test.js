@@ -1,5 +1,3 @@
-/* global describe it */
-
 const chai = require('chai')
 const chaiSpies = require('chai-spies')
 const chaiString = require('chai-string')
