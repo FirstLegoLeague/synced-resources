@@ -30,8 +30,12 @@ describe('mongo entity server', () => {
     app.use(server)
 
     beforeEach(() => {
-      server._connectionPromise = undefined
+      server._adapter._connectionPromise = undefined
       MongoClient.errorsEnabled = false
+      MongoClient.collection.data = [{
+        _id: 'entity-id',
+        field1: '1a3e5df'
+      }]
     })
 
     describe('get', () => {
@@ -155,7 +159,7 @@ describe('mongo entity server', () => {
     app.use(server)
 
     beforeEach(() => {
-      server._connectionPromise = undefined
+      server._adapter._connectionPromise = undefined
       MongoClient.errorsEnabled = false
     })
 
@@ -195,7 +199,7 @@ describe('mongo entity server', () => {
     app.use(server)
 
     beforeEach(() => {
-      server._connectionPromise = undefined
+      server._adapter._connectionPromise = undefined
       MongoClient.errorsEnabled = false
     })
 
