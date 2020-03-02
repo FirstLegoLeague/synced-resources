@@ -7,10 +7,11 @@ const { InvalidEntry } = require('./lib/resources/errors/invalid_entry')
 
 const { MongoCollectionServer } = require('./lib/server/mongo/collection_server')
 const { MongoEntityServer } = require('./lib/server/mongo/entity_server')
+const { MongoResourceAdapter } = require('./lib/server/mongo/resource_adapter')
 
 const { allowModelConfiguration } = require('./lib/server/configurable_model_server')
 
 exports.Model = Model
 exports.InvalidEntry = InvalidEntry
 
-Object.assign(exports, { Model, ConfigurableModel, FieldsModel, InvalidEntry, MongoCollectionServer, MongoEntityServer, allowModelConfiguration })
+Object.assign(exports, { Model, ConfigurableModel, FieldsModel, InvalidEntry, MongoCollectionServer, MongoResourceAdapter, MongoEntityServer, allowModelConfiguration })
