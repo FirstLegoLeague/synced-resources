@@ -1,7 +1,7 @@
 {
   "name": "@first-lego-league/synced-resources",
   "description": "A Resource that uses ms-client and ms-messenger to keep itself updated with a service",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "index.js",
   "repository": "https://github.com/FirstLegoLeague/ms-resource.git",
   "author": "Idan Stark <idanstark42@gmail.com>",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@first-lego-league/ms-client": "^1.2.4",
     "@first-lego-league/ms-correlation": "^0.0.5",
-    "@first-lego-league/ms-messenger": "^1.1.2",
+    "@first-lego-league/ms-messenger": "^1.2.5",
     "axios": "^0.19.2",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
