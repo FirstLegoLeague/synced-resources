@@ -20,7 +20,7 @@
   "dependencies": {
     "@first-lego-league/ms-client": "^1.2.4",
     "@first-lego-league/ms-correlation": "^0.0.5",
-    "@first-lego-league/ms-messenger": "^1.2.6",
+    "@first-lego-league/ms-messenger": "^1.2.7",
     "axios": "^0.19.2",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
