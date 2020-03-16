@@ -1,7 +1,7 @@
 {
   "name": "@first-lego-league/synced-resources",
   "description": "A Resource that uses ms-client and ms-messenger to keep itself updated with a service",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "main": "index.js",
   "browser": "browser.js",
   "repository": "https://github.com/FirstLegoLeague/ms-resource.git",
