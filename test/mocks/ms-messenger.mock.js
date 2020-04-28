@@ -10,7 +10,7 @@ const messenger = {
     return Promise.resolve()
   },
   send: () => { },
-  ignoreNextMessage: () => { }
+  ignoreNextMessageOfTopic: () => { }
 }
 
 messenger.on = (topic, callback) => messenger.listen(topic, callback)

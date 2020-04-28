@@ -66,7 +66,7 @@ describe('EntityClient', () => {
       const _id = 5
       return entityClient.init()
         .then(() => {
-          triggerListener({ _id })
+          triggerListener({ action: 'update', entry: { _id } })
           expect(entityClient.data._id).to.equal(_id)
         })
     })
@@ -84,19 +84,20 @@ describe('EntityClient', () => {
   describe('set', () => {
     const newData = { field1: '12' }
 
-    it('calls ignoreNextMessage', () => {
+    it('calls ignoreNextMessageOfTopic', () => {
       return entityClient.init()
         .then(() => entityClient.set(newData))
         .then(() => {
-          expect(messenger.ignoreNextMessage).to.have.been.called.with('ModelMock:reload')
+          expect(messenger.ignoreNextMessageOfTopic).to.have.been.called.with('ModelMock:reload')
         })
     })
 
     it('sends a POST HTTP request to set the value', () => {
+      const _id = 'a21212121212121212121212'
       return entityClient.init()
         .then(() => entityClient.set(newData))
         .then(() => {
-          expect(client.post).to.have.been.called.with(RESOURCE_SERVER_URL, newData)
+          expect(client.post).to.have.been.called.with(RESOURCE_SERVER_URL, Object.assign({ _id }, newData))
         })
     })
 

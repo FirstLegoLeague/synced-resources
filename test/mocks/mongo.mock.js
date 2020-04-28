@@ -53,8 +53,11 @@ MongoClient.load = () => {
 
 MongoClient.load()
 
-exports.MongoClient = MongoClient
+class ObjectID { }
 
-exports.MongoMock = { MongoClient }
+exports.MongoClient = MongoClient
+exports.ObjectID = ObjectID
+
+exports.MongoMock = { MongoClient, ObjectID }
 exports.MongoMock['@global'] = true
 exports.MongoMock['@noCallThru'] = true

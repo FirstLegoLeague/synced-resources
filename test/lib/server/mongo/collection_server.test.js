@@ -168,7 +168,7 @@ describe('mongo collection server', () => {
 
     describe('create', () => {
       describe('a valid entry', () => {
-        const entry = new ModelMock({ field1: 'field1', field2: '2' })
+        const entry = new ModelMock({ _id: 'id', field1: 'field1', field2: '2' })
         const entryJson = entry.toJson()
 
         it('saves the entry into the DB', done => {

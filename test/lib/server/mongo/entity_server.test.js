@@ -97,7 +97,7 @@ describe('mongo entity server', () => {
           request(app)
             .post('/')
             .send(entryJson)
-            .expect(204, (error, response) => {
+            .expect(200, (error, response) => {
               if (error) {
                 throw error
               }
@@ -111,7 +111,7 @@ describe('mongo entity server', () => {
           request(app)
             .post('/')
             .send(entryJson)
-            .expect(204, (error, response) => {
+            .expect(200, (error, response) => {
               if (error) {
                 throw error
               }

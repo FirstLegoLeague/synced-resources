@@ -125,11 +125,11 @@ describe('CollectionClient', () => {
   })
 
   describe('clear', () => {
-    it('calls ignoreNextMessage', () => {
+    it('calls ignoreNextMessageOfTopic', () => {
       return collectionClient.init()
         .then(() => collectionClient.clear())
         .then(() => {
-          expect(messenger.ignoreNextMessage).to.have.been.called.with('ModelMock:reload')
+          expect(messenger.ignoreNextMessageOfTopic).to.have.been.called.with('ModelMock:reload')
         })
     })
 
@@ -151,11 +151,11 @@ describe('CollectionClient', () => {
   })
 
   describe('create', () => {
-    it('calls ignoreNextMessage', () => {
+    it('calls ignoreNextMessageOfTopic', () => {
       return collectionClient.init()
         .then(() => collectionClient.create({ _id: 5 }))
         .then(() => {
-          expect(messenger.ignoreNextMessage).to.have.been.called.with('ModelMock:reload')
+          expect(messenger.ignoreNextMessageOfTopic).to.have.been.called.with('ModelMock:reload')
         })
     })
 
@@ -183,7 +183,7 @@ describe('CollectionClient', () => {
   })
 
   describe('update', () => {
-    it('calls ignoreNextMessage', () => {
+    it('calls ignoreNextMessageOfTopic', () => {
       return collectionClient.init()
         .then(() => {
           const entry = collectionClient.data[1].toJson()
@@ -194,7 +194,7 @@ describe('CollectionClient', () => {
           return collectionClient.update(entry)
         })
         .then(() => {
-          expect(messenger.ignoreNextMessage).to.have.been.called.with('ModelMock:reload')
+          expect(messenger.ignoreNextMessageOfTopic).to.have.been.called.with('ModelMock:reload')
         })
     })
 
@@ -233,12 +233,12 @@ describe('CollectionClient', () => {
   })
 
   describe('delete', () => {
-    it('calls ignoreNextMessage', () => {
+    it('calls ignoreNextMessageOfTopic', () => {
       return collectionClient.init()
         .then(() => {
           return collectionClient.delete(collectionClient.data[1])
         }).then(() => {
-          expect(messenger.ignoreNextMessage).to.have.been.called.with('ModelMock:reload')
+          expect(messenger.ignoreNextMessageOfTopic).to.have.been.called.with('ModelMock:reload')
         })
     })
 

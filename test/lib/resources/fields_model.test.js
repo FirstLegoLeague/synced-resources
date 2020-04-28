@@ -22,12 +22,12 @@ describe('Fields Model', () => {
   beforeEach(() => {
     fields = chai.spy(() => {
       return [
-        { field: '_id', defaultValue: 1 },
-        { field: 'field0' },
-        { field: 'field1', defaultValue: 1, enrichment: true },
-        { field: 'field2', type: FieldsModel.As_IS, defaultValue: { } },
-        { field: 'field3', type: Number, defaultValue: 10 },
-        { field: 'field4', required: true }
+        { key: '_id', defaultValue: 1 },
+        { key: 'field0' },
+        { key: 'field1', defaultValue: 1, enrichment: true },
+        { key: 'field2', type: FieldsModel.As_IS, defaultValue: { } },
+        { key: 'field3', type: Number, defaultValue: 10 },
+        { key: 'field4', required: true }
       ]
     })
   })
